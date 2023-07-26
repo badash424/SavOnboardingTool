@@ -6,5 +6,5 @@ Start the tool using using the following command.
 ```
 To add additional module use -
 ```
-  npm -i `module-name`
+  npm install `module-name`
 ```
