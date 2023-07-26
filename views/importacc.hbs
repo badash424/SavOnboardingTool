@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Input Form</title>
+  <style>
+    /* Define your CSS styles here */
+    .hidden {
+      display: none;
+    }
+    .condn{
+        display: none;
+    }
+    .condn1{
+        display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Input Form</h1>
+    <form action="/importacc/submit" method="post">
+    <label for="text-input">Connection name:</label>
+    <input type="text" id="text-input-conn" name="text-input-conn" placeholder="Enter text">
+    
+    <br>
+    <label for="text-input-inanif">Inactivate Accounts not in File:</label>
+    <select id="text-input-inanif" name="text-input-inanif">
+    <option value="">Select an option</option>
+    <option value="true">True</option>
+    <option value="false">False</option>
+    </select>
+    
+    <br>
+    <label for="text-input-atv">Account Threshold Value:</label>
+    <input type="text" id="text-input-atv" name="text-input-atv" placeholder="Enter text">
+    
+    <br>
+    <label for="text-input-urlone">URL:</label>
+    <input type="text" id="text-input-urlone" name="text-input-urlone" placeholder="Enter url">
+    
+    <br>
+
+    <label for="text-input-kf">Key Field:</label>
+    <input type="text" id="text-input-kf-one" name="text-input-kf-one" value="accountID" disabled>
+    
+    <br>
+    
+    <label for="textarea-input">User JSON:</label>
+    <textarea id="textarea-input" name="textarea-input" rows="10" cols="90" placeholder="Enter json"></textarea>
+    
+    <br>
+    <label for="text-input-urltwo">URL:</label>
+    <input type="text" id="text-input-urltwo" name="text-input-urltwo" placeholder="Enter url">
+    
+    <br>
+    
+    <label for="text-input-kf">Key Field:</label>
+    <input type="text" id="text-input-kf-two" name="text-input-kf-two" value="entitlementID" disabled>
+    
+    <br>
+    <label for="text-input-idpath">ID Path:</label>
+    <input type="text" id="text-input-idpath" name="text-input-idpath" placeholder="Enter text">
+    
+    <br>
+    <label for="textarea-input-one">Role JSON:</label>
+    <textarea id="textarea-input-one" name="textarea-input-one" rows="10" cols="90" placeholder="Enter json"></textarea>
+    
+    <br>
+    <label for="text-input-dde">Disable Deleted Entitlements:</label>
+    <select id="text-input-dde" name="text-input-dde">
+    <option value="">Select an option</option>
+    <option value="true">True</option>
+    <option value="false">False</option>
+    </select>
+    <br>
+    <button type="submit">Submit</button>
+    </form>
+    <p>{{jsondata}}</p>
+</body>
+</html>  

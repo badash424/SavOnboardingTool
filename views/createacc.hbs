@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Input Form</title>
+  <style>
+    /* Define your CSS styles here */
+    .hidden {
+      display: none;
+    }
+    .condn{
+        display: none;
+    }
+    .condn1{
+        display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Input Form</h1>
+  
+  <form action="/createacc/submit" method="post">
+    <label for="text-input">URL:</label>
+    <input type="text" id="text-input-url" name="text-input-url" placeholder="Enter url">
+    
+    <br>
+    <label for="text-input">Account ID path:</label>
+    <input type="text" id="text-input-accid" name="text-input-accid" placeholder="Enter text">
+    
+    <br>
+    <label for="text-input">Connection name:</label>
+    <input type="text" id="text-input-conn" name="text-input-conn" placeholder="Enter text">
+    
+    <br>
+    <label for="country-dropdown">Country:</label>
+  <select id="country-dropdown" name="country-dropdown">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <label for="un-dropdown">Username:</label>
+  <select id="un-dropdown" name="un-dropdown">
+    <option value="">Select an option</option>
+    {{#each opt}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <label for="empid-dropdown">Employee ID:</label>
+  <select id="empid-dropdown" name="empid-dropdown">
+    <option value="">Select an option</option>
+    {{#each opts}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <label for="deflegalentity-dropdown">Default Legal Entity:</label>
+  <button type="button" id="condbutton" class="btn btn-secondary" onclick="openif();">Apply condition</button>
+  <button type="button" id="selectbutton" class="btn btn-secondary" onclick="openselect();">Select option</button>
+  <select id="deflegalentity-dropdown" name="deflegalentity-dropdown" style="display:none">
+    <option value="">Select an option</option>
+    {{#each optionss}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+   <input class= "condn" type="text" id="condition" name="condition" placeholder="Enter condition">
+    
+    <br>
+    
+    <div id="and-conditions-container" class="hidden">
+      <label for="and-conditions">And Conditions:</label>
+      <input type="text" id="and-conditions" name="and-conditions[]" placeholder="Enter and condition">
+      <button type="button" id="add-and-condition">Add And Condition</button>
+    </div>
+    
+    <br>
+    
+    <div id="or-conditions-container" class="hidden">
+      <label for="or-conditions">Or Conditions:</label>
+      <input type="text" id="or-conditions[]" name="or-conditions[]" placeholder="Enter or condition">
+      <button type="button" id="add-or-condition">Add Or Condition</button>
+    </div>   
+    <br>
+    <label class="condn" for="thenif">Then:</label>
+    <input class= "condn" type="text" id="thenif" name="thenif" placeholder="Enter result">
+    <br>
+    <label class="condn" for="else-if">Else If:</label>
+    <input class="condn" type="text" id="else-if" name="else-if" placeholder="Enter else if condition">
+    
+    <br>
+    <label class="condn" for="thenelseif">Then:</label>
+    <input class= "condn" type="text" id="thenelseif" name="thenelseif" placeholder="Enter result">
+    <br>
+    <label class="condn" for="else">Else:</label>
+    <input class="condn" type="text" id="else" name="else" placeholder="Enter else condition">
+    <br>
+  <br>
+  <label for="sup-dropdown">Primary Supervisor:</label>
+  <select id="sup-dropdown" name="sup-dropdown">
+    <option value="">Select an option</option>
+    <option>managerAccount.accountID</option>
+    <option>userManager.systemUserName</option>
+  </select>
+  <br>
+  <label for="msp-dropdown">MSP User:</label>
+  <button type="button" id="condbutton1" class="btn btn-secondary" onclick="openiff();">Apply condition</button>
+  <button type="button" id="selectbutton1" class="btn btn-secondary" onclick="openselectt();">Select option</button>
+  <select id="msp-dropdown" name="msp-dropdown" style="display:none">
+    <option value="">Select an option</option>
+    <option value="YES">Yes</option>
+    <option value="NO">No</option>
+  </select>
+
+  <input class= "condn1" type="text" id="condition1" name="condition1" placeholder="Enter condition">
+  <label class="condn1" for="thenif1">Then:</label>
+    <input class= "condn1" type="text" id="thenif1" name="thenif1" placeholder="Enter result">
+    <br>
+  <label class="condn1" for="else">Else:</label>
+    <input class="condn1" type="text" id="else1" name="else1" placeholder="Enter else condition">
+    <br>
+  <br>
+  <label for="ent-dropdown">Entity:</label>
+  <select id="ent-dropdown" name="ent-dropdown">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select> - 
+  <select id="ent-dropdown-one" name="ent-dropdown-one">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <label for="subent-dropdown">Sub Entity:</label>
+  <select id="subent-dropdown" name="subent-dropdown">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select> - 
+  <select id="subent-dropdown-one" name="subent-dropdown-one">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <label for="entr-dropdown">Enterprise:</label>
+  <select id="entr-dropdown" name="entr-dropdown">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select> - 
+  <select id="entr-dropdown-one" name="entr-dropdown-one">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <label for="asrs-dropdown">Asset Region Structure:</label>
+  <select id="asrs-dropdown" name="asrs-dropdown">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select> - 
+  <select id="asrs-dropdown-one" name="asrs-dropdown-one">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <label for="asrc-dropdown">Asset Region Code:</label>
+  <select id="asrc-dropdown" name="asrc-dropdown">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select> - 
+  <select id="asrc-dropdown-one" name="asrc-dropdown-one">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <label for="assrc-dropdown">Asset Sub Region Code:</label>
+  <select id="assrc-dropdown" name="assrc-dropdown">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select> - 
+  <select id="assrc-dropdown-one" name="assrc-dropdown-one">
+    <option value="">Select an option</option>
+    {{#each options}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+    <label for="textarea-input">Create Account JSON:</label>
+    <textarea id="textarea-input" name="textarea-input" rows="10" cols="90" placeholder="Enter json"></textarea>
+    
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+  <p>{{jsondata}}</p>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+  <script>
+    const addAndConditionBtn = document.getElementById('add-and-condition');
+    const addOrConditionBtn = document.getElementById('add-or-condition');
+    const andConditionsContainer = document.getElementById('and-conditions-container');
+    const orConditionsContainer = document.getElementById('or-conditions-container');
+    
+    addAndConditionBtn.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'and-conditions[]';
+      input.placeholder = 'Enter and condition';
+      andConditionsContainer.appendChild(input);
+    });
+    
+    addOrConditionBtn.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'or-conditions[]';
+      input.placeholder = 'Enter or condition';
+      orConditionsContainer.appendChild(input);
+    });
+    const conditionInput = document.getElementById('condition');
+    const elseIfInput = document.getElementById('else-if');
+    const elseInput = document.getElementById('else');
+    
+    conditionInput.addEventListener('input', toggleConditionFields);
+    
+    function toggleConditionFields() {
+      const conditionValue = conditionInput.value.trim();
+      const shouldShowAndOr = conditionValue.length > 0;
+      andConditionsContainer.classList.toggle('hidden', !shouldShowAndOr);
+      orConditionsContainer.classList.toggle('hidden', !shouldShowAndOr);
+      
+      const shouldShowElseIfElse = shouldShowAndOr || elseIfInput.value.trim().length > 0;
+      elseIfInput.classList.toggle('hidden', !shouldShowElseIfElse);
+      elseInput.classList.toggle('hidden', !shouldShowElseIfElse);
+    }
+    function openif(){
+        console.log("onclick triggered");
+        var applyc = document.getElementById("condbutton");
+        var selb = document.getElementById("selectbutton");
+        $(".condn").show();
+        applyc.style.display = "none";
+        selb.style.display = "none";
+    }
+    function openselect(){
+        console.log("onclick triggered");
+        var sel = document.getElementById("deflegalentity-dropdown");
+        var applyc = document.getElementById("condbutton");
+        var selb = document.getElementById("selectbutton");
+        sel.style.display = "inline-block";
+        applyc.style.display = "none";
+        selb.style.display = "none";
+    }
+    function openiff(){
+        console.log("onclick triggered");
+        var applyc = document.getElementById("condbutton1");
+        var selb = document.getElementById("selectbutton1");
+        $(".condn1").show();
+        applyc.style.display = "none";
+        selb.style.display = "none";
+    }
+    function openselectt(){
+        console.log("onclick triggered");
+        var sel = document.getElementById("msp-dropdown");
+        var applyc = document.getElementById("condbutton1");
+        var selb = document.getElementById("selectbutton1");
+        sel.style.display = "inline-block";
+        applyc.style.display = "none";
+        selb.style.display = "none";
+    }
+  </script>
+</body>
+</html>
