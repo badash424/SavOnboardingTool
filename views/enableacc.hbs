@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Input Form</title>
+  <style>
+    /* Define your CSS styles here */
+    .hidden {
+      display: none;
+    }
+
+    .condn {
+      display: none;
+    }
+
+    .condn1 {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Input Form</h1>
+  <form action="/enableacc/submit" method="post">
+    <label for="text-input-conn">Connection name:</label>
+    <input type="text" id="text-input-conn" name="text-input-conn" placeholder="Enter text">
+    <br>
+    <label for="text-input-url">URL:</label>
+    <input type="text" id="text-input-url" name="text-input-url" placeholder="Enter url">
+    <br>
+    <label for="text-input-accid">Account ID path:</label>
+    <input type="text" id="text-input-accid" name="text-input-accid" placeholder="Enter text">
+    <br>
+    <label for="httpmethod">HTTP Method</label>
+    <select id="httpmethod" name="httpmethod">
+      <option value="">Select an option</option>
+      <option value="PUT">PUT</option>
+      <option value="POST">POST</option>
+    </select>
+    <br>
+    <label for="textarea-input">Enable Account JSON:</label>
+    <textarea id="textarea-input" name="textarea-input" rows="10" cols="90" placeholder="Enter json"></textarea>
+
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+  <p>{{jsondata}}</p>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+</body>
+</html> 
