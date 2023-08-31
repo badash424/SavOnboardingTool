@@ -9,6 +9,7 @@ const hbs = require('express-handlebars');
 const createacc = require('./routes/createacc')
 const importacc = require('./routes/importacc')
 const enableacc = require('./routes/enableacc')
+const disableacc = require('./routes/disableacc')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/createacc',createacc);
 app.use('/importacc',importacc);
 app.use('/enableacc',enableacc);
+app.use('/disableacc',disableacc);
 //Sets a basic route
 app.get('/', (req, res, next) => {
   res.render('index');

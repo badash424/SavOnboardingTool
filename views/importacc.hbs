@@ -10,7 +10,7 @@
     .condn{
         display: none;
     }
-    .condn1{
+    .customjson{
         display: none;
     }
   </style>
@@ -72,8 +72,32 @@
     <option value="false">False</option>
     </select>
     <br>
-    <button type="submit">Submit</button>
+    <button onclick= "showMap()" type="submit">Submit</button>
     </form>
     <p>{{jsondata}}</p>
+    <p ><b>Are you satisfied with the generated JSON?</b></p>
+    <button onclick="showMappings()">No</button>
+    <form method="POST" action="/importacc/submitchanges">
+    <input id="sc" name="sc" type="text" style="display:none" value="{{jsondata}}"/>
+    {{#each customjson}}
+        <label class="customjson">
+             <input type="text" id="keys[]" name="keys[]" value="{{@key}}">:
+            <input type="text" id="keys[]" name="values[]" value="{{this}}">
+        </label>
+        {{/each}}
+        <button class="customjson" type="submit">Submit changes</button>
+    </form>    
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script>
+  function showMappings(){
+    
+    $(".customjson").show();
+  }
+  function showMap(){
+    
+    $(".condn").show();
+  }
+</script>
 </html>  

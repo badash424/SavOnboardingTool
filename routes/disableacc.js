@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 router.get('/', (req, res) => {
-    res.render('enableacc', { layout: 'layout' });
+    res.render('disableacc', { layout: 'layout' });
   });
 
 router.post('/submit', (req, res) => {
@@ -53,7 +53,7 @@ router.post('/submit', (req, res) => {
     outputJson.call[0].unsuccessResponses = {};
     outputJson.call[0].unsuccessResponses.statusCode = [400, 401, 404, 405];
     let opJson = JSON.stringify(outputJson);
-    res.render('enableacc', { layout: 'layout', jsondata: opJson, customjson: paramsJson });
+    res.render('disableacc', { layout: 'layout', jsondata: opJson, customjson: paramsJson });
   }
   catch (error) {
     console.log(error);
@@ -61,28 +61,28 @@ router.post('/submit', (req, res) => {
 }
 });
 router.post('/submitchanges', (req, res) => {
-  const updatedKeys = req.body["keys"];
-  const updatedValues = req.body["values"];
-  const scVal = JSON.parse(req.body["sc"]);
- console.log(scVal);
- 
- const colsToPropMap = JSON.parse(scVal.call[0].httpParams);
-
- for (const key in colsToPropMap) {
-  delete colsToPropMap[key];
-}
-
-console.log(updatedKeys);
-console.log(updatedValues);
- for (let i = 0; i < updatedKeys.length; i++) {
-     const key = updatedKeys[i];
-     const value = updatedValues[i];
-     console.log(colsToPropMap);
-     colsToPropMap[key] = value;
- }
- console.log(colsToPropMap);
- scVal.call[0].httpParams = JSON.stringify(colsToPropMap);
-  var sccVal = JSON.stringify(scVal);
-  res.render('enableacc', { layout: 'layout', jsondata: sccVal, customjson: scVal.call[0].httpParams });
-});
+    const updatedKeys = req.body["keys"];
+    const updatedValues = req.body["values"];
+    const scVal = JSON.parse(req.body["sc"]);
+   console.log(scVal);
+   
+   const colsToPropMap = JSON.parse(scVal.call[0].httpParams);
+  
+   for (const key in colsToPropMap) {
+    delete colsToPropMap[key];
+  }
+  
+  console.log(updatedKeys);
+  console.log(updatedValues);
+   for (let i = 0; i < updatedKeys.length; i++) {
+       const key = updatedKeys[i];
+       const value = updatedValues[i];
+       console.log(colsToPropMap);
+       colsToPropMap[key] = value;
+   }
+   console.log(colsToPropMap);
+   scVal.call[0].httpParams = JSON.stringify(colsToPropMap);
+    var sccVal = JSON.stringify(scVal);
+    res.render('disableacc', { layout: 'layout', jsondata: sccVal, customjson: scVal.call[0].httpParams });
+  });
 module.exports = router;  

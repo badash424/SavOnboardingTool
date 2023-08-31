@@ -9,19 +9,19 @@
       display: none;
     }
 
-    .customjson{
-        display: none;
-    }
-
     .condn {
       
+    }
+
+    .customjson{
+        display: none;
     }
   </style>
 </head>
 
 <body>
   <h1>Input Form</h1>
-  <form id="myForm" action="/enableacc/submit" method="post">
+  <form action="/disableacc/submit" method="post">
     <label for="text-input-conn">Connection name:</label>
     <input type="text" id="text-input-conn" name="text-input-conn" placeholder="Enter text">
     <br>
@@ -42,12 +42,12 @@
     <textarea id="textarea-input" name="textarea-input" rows="10" cols="90" placeholder="Enter json"></textarea>
 
     <br>
-    <button onclick= "showMap(event)" type="submit">Submit</button>
+    <button type="submit">Submit</button>
   </form>
   <p>{{jsondata}}</p>
   <p class="condn"><b>Are you satisfied with the generated JSON?</b></p>
     <button class="condn" onclick="showMappings()">No</button>
-    <form method="POST" action="/enableacc/submitchanges">
+    <form method="POST" action="/disableacc/submitchanges">
     <input id="sc" name="sc" type="text" style="display:none" value="{{jsondata}}"/>
     {{#each customjson}}
         <label class="customjson">

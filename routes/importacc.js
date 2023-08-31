@@ -23,7 +23,7 @@ router.post('/submit', (req, res) => {
       const jsonData = JSON.parse(textareaInput);
         console.log(jsonData);
         // Handling the parsed JSON data
-        console.log(jsonData.Data[0]);
+        //console.log(jsonData.Data[0]);
         const jsonDataa = JSON.parse(textareaInputone);
         console.log(jsonDataa);
         // Handling the parsed JSON data
@@ -60,25 +60,98 @@ router.post('/submit', (req, res) => {
             }
             return null; // Return null if no such key is found
         }
+        
+
+        function findKeyHierarchyWithValueArray(obj, currentKey = "") {
+          for (const key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                  const newKey = currentKey ? `${currentKey}.${key}` : key;
+                  
+                  if (isValueArray(obj[key])) {
+                      return newKey;
+                  } else if (typeof obj[key] === 'object') {
+                      const result = findKeyHierarchyWithValueArray(obj[key], newKey);
+                      if (result) {
+                          return result;
+                      }
+                  }
+              }
+          }
+          return null; // Return null if no such key is found
+      }
       
-        const keyWithValueArray = findKeyWithValueArray(jsonData);
+      // Function to traverse the JSON object using the key hierarchy
+        function traverseByHierarchy(obj, hierarchy) {
+          const keys = hierarchy.split('.');
+          let currentObj = obj;
+          
+          for (const key of keys) {
+              if (currentObj.hasOwnProperty(key)) {
+                  currentObj = currentObj[key];
+              } else {
+                  return null; // Key not found in hierarchy
+              }
+          }
+          
+          return currentObj;
+        }
+
+        const keyWithValueArray = findKeyHierarchyWithValueArray(jsonData);
         paramsJson.accountParams.call.call1.listField = keyWithValueArray;
         paramsJson.accountParams.call.call1.keyField = "accountID";
         paramsJson.accountParams.call.call1.statusConfig = {};
         paramsJson.accountParams.call.call1.statusConfig.active = "Y";
         paramsJson.accountParams.call.call1.statusConfig.inactive = "N";
         paramsJson.accountParams.call.call1.colsToPropMap = {};
-        if(Object.keys(jsonData.Data[0]).includes("Employee ID")){
-        paramsJson.accountParams.call.call1.colsToPropMap.accountID = "Employee ID~#~char";
+        console.log("Traverse",traverseByHierarchy(jsonData, keyWithValueArray));
+        const pattern = /(user|employee|login)\s*id/i;
+        const pattern1 = /(user)\s*name/i;
+        const pattern2 = /(first)\s*name/i;
+        const pattern3 = /(last)\s*name/i;
+
+        //console.log(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase() === "id"));
+        //console.log(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern.test(item)));
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("id")) && Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern.test(item))){
+        paramsJson.accountParams.call.call1.colsToPropMap.accountID = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern.test(item)) +"~#~char";
         }
-        if(Object.keys(jsonData.Data[0]).includes("Username")){
-          paramsJson.accountParams.call.call1.colsToPropMap.name = "Username~#~char";
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern1.test(item)) || Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("id")) && Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern.test(item))){
+          
+          paramsJson.accountParams.call.call1.colsToPropMap.name = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern1.test(item));
+          if(!Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern1.test(item))){paramsJson.accountParams.call.call1.colsToPropMap.name = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern.test(item));}
+          paramsJson.accountParams.call.call1.colsToPropMap.name += "~#~char";
         }
-        if(Object.keys(jsonData.Data[0]).includes("Employee ID")){
-          paramsJson.accountParams.call.call1.colsToPropMap.displayName = "Employee ID~#~char";
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("id")) && Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern.test(item)) || Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern1.test(item))){
+          paramsJson.accountParams.call.call1.colsToPropMap.displayName = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern.test(item));
+          if(!Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern.test(item))){paramsJson.accountParams.call.call1.colsToPropMap.displayName =Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern1.test(item));}
+          paramsJson.accountParams.call.call1.colsToPropMap.displayName += "~#~char";
         }
-        if(Object.keys(jsonData.Data[0]).includes("UserStatus")){
-          paramsJson.accountParams.call.call1.colsToPropMap.status = "UserStatus~#~char";
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern2.test(item))){
+          paramsJson.accountParams.call.call1.colsToPropMap.customproperty1 = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern2.test(item));
+        }
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern3.test(item))){
+          paramsJson.accountParams.call.call1.colsToPropMap.customproperty2 = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern3.test(item));
+        }
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("active")) || Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("status"))){
+          paramsJson.accountParams.call.call1.colsToPropMap.customproperty3 = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("active")) || Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("status"));
+          if(!Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("active"))){
+            paramsJson.accountParams.call.call1.colsToPropMap.customproperty3 = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("status"));
+          }
+          paramsJson.accountParams.call.call1.colsToPropMap.customproperty3 += "~#~char";
+        }
+        //console.log(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("active")));
+        //console.log(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("status")));
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("active")) || Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("status"))){
+          paramsJson.accountParams.call.call1.colsToPropMap.status = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("active")) || Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("status"));
+          if(!Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("active"))){
+            paramsJson.accountParams.call.call1.colsToPropMap.status = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("status"));
+          }
+          paramsJson.accountParams.call.call1.colsToPropMap.status += "~#~char";
+        }
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("id")) && Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => pattern.test(item))){
+          paramsJson.accountParams.call.call1.colsToPropMap.customproperty4 = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => pattern.test(item)) +"~#~char";
+        }
+        if(Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).some(item => item.toLowerCase().includes("email"))){
+          paramsJson.accountParams.call.call1.colsToPropMap.customproperty5 = Object.keys(traverseByHierarchy(jsonData, keyWithValueArray)[0]).find(item => item.toLowerCase().includes("email")) + "~#~char";
         }
         paramsJson.accountParams.call.call1.colsToPropMap.customproperty31 = "STORE#ACC#ENT#MAPPINGINFO~#~char";
         paramsJson.entitlementParams = {};
@@ -128,7 +201,7 @@ router.post('/submit', (req, res) => {
         paramsJson.acctEntParams.entTypes.Role.call.call1.http.httpHeaders = {};
         paramsJson.acctEntParams.entTypes.Role.call.call1.http.httpHeaders.Accept = "application/json";
         let params = JSON.stringify(paramsJson);
-        res.render('importacc', { layout: 'layout', jsondata: params });
+        res.render('importacc', { layout: 'layout', jsondata: params, customjson: paramsJson.accountParams.call.call1.colsToPropMap });
     }
     catch(err){
       console.log(err);
@@ -136,4 +209,25 @@ router.post('/submit', (req, res) => {
     }    
 }
 );  
+
+router.post('/submitchanges', (req, res) => {
+  const updatedKeys = req.body["keys"];
+  const updatedValues = req.body["values"];
+  const scVal = JSON.parse(req.body["sc"]);
+ console.log(scVal);
+ console.log(updatedKeys);
+ const colsToPropMap = scVal.accountParams.call.call1.colsToPropMap;
+ for (const key in colsToPropMap) {
+  delete colsToPropMap[key];
+}
+console.log(colsToPropMap);
+ for (let i = 0; i < updatedKeys.length; i++) {
+     const key = updatedKeys[i];
+     const value = updatedValues[i];
+     
+     colsToPropMap[key] = value;
+ }
+  var sccVal = JSON.stringify(scVal);
+  res.render('importacc', { layout: 'layout', jsondata: sccVal, customjson: scVal.accountParams.call.call1.colsToPropMap });
+});  
 module.exports = router;
